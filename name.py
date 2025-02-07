@@ -9,14 +9,17 @@ bme680 = adafruit_bme680.Adafruit_BME680_I2C(i2c)
 # change this to match the location's pressure (hPa) at sea level
 bme680.sea_level_pressure = 1013.25
 
-set_time =  time.ctime() + 15
-while time.ctime() < set_time:
-    print("\nTemperature: %0.1f C" % bme680.temperature)
-    print("Gas: %d ohm" % bme680.gas)
-    print("Humidity: %0.1f %%" % bme680.relative_humidity)
-    print("Pressure: %0.3f hPa" % bme680.pressure)
-    print("Altitude = %0.2f meters" % bme680.altitude)
-    curr = time.ctime()
-    print("Current time:", curr)
+now = time.time()
+delay = 10
+
+while True:
+    if time.time() > now + delay:
+        print("\nTemperature: %0.1f C" % bme680.temperature)
+        print("Gas: %d ohm" % bme680.gas)
+        print("Humidity: %0.1f %%" % bme680.relative_humidity)
+        print("Pressure: %0.3f hPa" % bme680.pressure)
+        print("Altitude = %0.2f meters" % bme680.altitude)
+        curr = time.ctime()
+        print("Current time:", curr)
     time.sleep(2)
     
