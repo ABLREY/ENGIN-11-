@@ -17,3 +17,5 @@ while True:
     print("Altitude = %0.2f meters" % bme680.altitude)
 
     time.sleep(2)
+    curr = time.ctime(1627908313.717886)
+    print("Current time:", curr)
