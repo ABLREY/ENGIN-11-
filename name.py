@@ -15,7 +15,7 @@ while True:
     print("Humidity: %0.1f %%" % bme680.relative_humidity)
     print("Pressure: %0.3f hPa" % bme680.pressure)
     print("Altitude = %0.2f meters" % bme680.altitude)
-    curr = time.ctime(1627908313.717886)
+    curr = time.ctime()
     print("Current time:", curr)
     time.sleep(2)
     
