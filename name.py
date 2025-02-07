@@ -10,7 +10,7 @@ bme680 = adafruit_bme680.Adafruit_BME680_I2C(i2c)
 bme680.sea_level_pressure = 1013.25
 
 now = time.time()
-duration = 50
+duration = 500
 
 while time.time() - now > duration:
     curr = time.ctime() 
