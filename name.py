@@ -14,6 +14,6 @@ duration = 5
 
 while time.time() - now < duration: 
     curr = time.ctime()  
-    print(f"\rCurrent time: {curr} | Temperature: {bme680.temperature:.1f} C | Gas: {bme680.gas} ohm | Humidity: {bme680.relative_humidity:.1f}% | Pressure: {bme680.pressure:.3f} hPa | Altitude: {bme680.altitude:.2f} meters", end="")
+    print(f"\rCurrent time: {curr} | Temperature: {bme680.temperature:.1f} C | Gas: {bme680.gas} ohm | Humidity: {bme680.relative_humidity:.1f}% | Pressure: {bme680.pressure:.3f} hPa | Altitude: {bme680.altitude:.2f} meters")
     time.sleep(2)
     
