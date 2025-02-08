@@ -11,9 +11,9 @@ bme680.sea_level_pressure = 1013.25
 
 now = time.time()
 duration = 5
+curr = time.ctime()
 
-while time.time() - now < duration:
-    curr = time.ctime() 
+while time.time() - now < duration: 
     print("Current time:", curr , "\nTemperature: %0.1f C" % bme680.temperature ,  "Gas: %d ohm" % bme680.gas ,  "Humidity: %0.1f %%" % bme680.relative_humidity ,  "Pressure: %0.3f hPa" % bme680.pressure ,  "Altitude = %0.2f meters" % bme680.altitude)
     time.sleep(2)
     
