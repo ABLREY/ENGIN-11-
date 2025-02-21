@@ -3,7 +3,7 @@ import time
 
 print(sys.argv)
 
-if len(sys.argv) ( 2:
+if len(sys.argv) < 2:
   print("Script requires run_time(int) as an input")
   exit()
 else:
