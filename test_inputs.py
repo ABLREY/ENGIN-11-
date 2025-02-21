@@ -92,7 +92,7 @@ print(f"Data logging complete! File saved as {csv_filename}")
 
 
 
-
+#BME 680
 # Create sensor object, communicating over the board's default I2C bus
 i2c = board.I2C()   # uses board.SCL and board.SDA
 bme680 = adafruit_bme680.Adafruit_BME680_I2C(i2c)
