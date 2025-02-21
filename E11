@@ -7,7 +7,7 @@ import serial
 import adafruit_bme680
 from adafruit_pm25.uart import PM25_UART
 
-
+ 
 print(sys.argv)
 
 if len(sys.argv) < 2:
