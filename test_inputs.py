@@ -12,5 +12,5 @@ else:
 count = 0
 while count < run_time:
   print(count)
-count +=1
-time.sleep(1)
+  count +=1
+  time.sleep(1)
