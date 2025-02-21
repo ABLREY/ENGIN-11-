@@ -2,6 +2,9 @@ import sys
 import time
 import adafruit_bme680
 
+import csv
+import serial
+from adafruit_pm25.uart import PM25_UART
 import board
 
 print(sys.argv)
