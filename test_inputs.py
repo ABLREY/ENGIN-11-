@@ -21,6 +21,15 @@ while count < run_time:
   count +=1
   time.sleep(1)
 
+# PM2.5
+# Set up the UART connection
+uart = serial.Serial("/dev/ttyS0", baudrate=9600, timeout=0.25)
+pm25 = PM25_UART(uart, reset_pin=None)
+
+print("Found PM2.5 sensor, reading data...")
+
+# Define output CSV file
+csv_filename = "pm25_sensor_data.csv"
 
 
 with open(csv_filename, mode="w", newline="") as csvfile:
