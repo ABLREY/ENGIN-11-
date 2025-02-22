@@ -77,4 +77,4 @@ with open(filename, "w", newline='') as file:
         print("Logged data:", row)
 
 
-    time.sleep(2)  # Wait 2 seconds before next reading
+   # time.sleep(2)  # Wait 2 seconds before next reading
