@@ -27,7 +27,7 @@ pm25 = PM25_UART(uart, reset_pin)
 
 
 # Open CSV file 
-filename = "Sensors.csv"
+filename = "datadiff.csv"
 with open(filename, "w", newline='') as file:
     file_writer = csv.writer(file)
     
