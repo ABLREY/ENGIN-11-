@@ -3,7 +3,7 @@ import time
 from datetime import datetime
 
 
-PIN = 2
+PIN = 0
 count = 0  
 
 def pulse_detected(channel):
