@@ -5,8 +5,7 @@ import datetime
 import time
 import threading
 
-
-PIN = 0  # Your sensor is connected to GPIO pin 0 (BCM mode)
+PIN = 17  # GPIO 17 (BCM numbering)
 count = 0
 lock = threading.Lock()
 
@@ -28,15 +27,14 @@ def count_printer():
 
 try:
     GPIO.setmode(GPIO.BCM)
-    GPIO.setup(PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)  # Pull-up resistor assumed
+    GPIO.setup(PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)  # Use pull-up resistor
     GPIO.add_event_detect(PIN, GPIO.FALLING, callback=my_callback, bouncetime=1)
 
-    # Start the count printer in a separate thread
+    # Start background thread to report counts
     threading.Thread(target=count_printer, daemon=True).start()
 
-    input('\nPress Enter to exit.\n')
+    # Keep script running — use input() or infinite loop
+    input("Monitoring started. Press Enter to exit...\n")
 
 finally:
     GPIO.cleanup()
-
-print("Goodbye!")
