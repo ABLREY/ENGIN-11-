@@ -14,7 +14,7 @@ def my_callback(channel):
     global count
     with lock:
         count += 1
-    print('▼ Pulse detected at ' + str(datetime.datetime.now()))
+    print('▼ Count detected at ' + str(datetime.datetime.now()))
 
 # Threaded function to print count every 60 seconds
 def count_printer():
@@ -22,7 +22,7 @@ def count_printer():
     while True:
         time.sleep(60)
         with lock:
-            print(f"\n=== Total pulses in last minute: {count} ===\n")
+            print(f"\n=== Total counts in last minute: {count} ===\n")
             count = 0  # Reset for next minute
 
 try:
