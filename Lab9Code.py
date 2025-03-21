@@ -34,7 +34,7 @@ try:
     threading.Thread(target=count_printer, daemon=True).start()
 
     # Keep script running — use input() or infinite loop
-    input("Monitoring started. Press Enter to exit...\n")
+    input("Press any key to exit...\n")
 
 finally:
     GPIO.cleanup()
