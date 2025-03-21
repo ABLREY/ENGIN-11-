@@ -1,28 +1,38 @@
+# coding=utf-8
+
 import RPi.GPIO as GPIO
+import datetime
 import time
-from datetime import datetime
+import threading
 
+count = 0
+lock = threading.Lock()
 
-PIN = 0
-count = 0  
-
-def pulse_detected(channel):
+# Callback function for falling edge detection
+def my_callback(channel):
     global count
-    count += 1
-    print(f"Pulse detected at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    with lock:
+        count += 1
+    print('▼ Pulse detected at ' + str(datetime.datetime.now()))
 
-GPIO.setmode(GPIO.BCM)  
-GPIO.setup(PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)  
-
-GPIO.add_event_detect(PIN, GPIO.FALLING, callback=pulse_detected, bouncetime=200)
+def count_printer():
+    global count
+    while True:
+        time.sleep(60)
+        with lock:
+            print(f"\n=== Total pulses in last minute: {count} ===\n")
+            count = 0  # Reset for next minute
 
 try:
-    while True:
-        time.sleep(60)  
-        print(f"\nCount in the last minute: {count}\n")
-        count = 0  
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(O, GPIO.IN, pull_up_down=GPIO.PUD_UP)  # Pull-up resistor assumed
+    GPIO.add_event_detect(0, GPIO.FALLING, callback=my_callback, bouncetime=200)
 
-except KeyboardInterrupt:
-    print("Stopping...")
+    threading.Thread(target=count_printer, daemon=True).start()
+
+    input('\nPress Enter to exit.\n')
+
 finally:
     GPIO.cleanup()
+
+print("Goodbye!")
