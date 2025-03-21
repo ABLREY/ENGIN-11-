@@ -29,7 +29,7 @@ def count_printer():
 try:
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)  # Pull-up resistor assumed
-    GPIO.add_event_detect(PIN, GPIO.FALLING, callback=my_callback, bouncetime=200)
+    GPIO.add_event_detect(PIN, GPIO.FALLING, callback=my_callback, bouncetime=1)
 
     # Start the count printer in a separate thread
     threading.Thread(target=count_printer, daemon=True).start()
