@@ -41,7 +41,7 @@ def main():
     args = parse_arguments()
     interval = args.interval
     duration = args.duration
-    csv_filename = "al3.csv"
+    csv_filename = "tu1.csv"
 
     # Open CSV file
     csvfile = open(csv_filename, mode="w", newline="")
@@ -61,7 +61,7 @@ def main():
     finally:
         csvfile.close()
         GPIO.cleanup()
-        print("=== Data collection complete. Saved to 'al3.csv'. ===")
+        print("=== Data collection complete. Saved to 'tu1.csv'. ===")
 
 if __name__ == "__main__":
     main()
