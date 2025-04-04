@@ -22,7 +22,7 @@ def my_callback(channel):
     global count
     with lock:
         count += 1
-    print('▼ Pulse detected at ' + str(datetime.datetime.now()))
+    print('▼ Counts detected at ' + str(datetime.datetime.now()))
 
 def count_logger(interval, duration, csv_writer, csvfile):
     global count
@@ -31,7 +31,7 @@ def count_logger(interval, duration, csv_writer, csvfile):
         time.sleep(interval)
         with lock:
             timestamp = datetime.datetime.now().isoformat()
-            print(f"\n=== Pulses in last {interval} seconds: {count} ===\n")
+            print(f"\n=== Counts in last {interval} seconds: {count} ===\n")
             csv_writer.writerow([timestamp, count])
             csvfile.flush()
             count = 0
