@@ -3,20 +3,20 @@ import datetime
 import time
 import threading
 import csv
+import argparse
+import sys
 
 PIN = 17 
 count = 0
 lock = threading.Lock()
 
-csv_filename = "pulse_counter_data.csv"
-
-# Open the CSV file once and keep it open during runtime
-csvfile = open(csv_filename, mode="w", newline="")
-csv_writer = csv.writer(csvfile)
-
-# Write meta-data and headers
-csv_writer.writerow(["# Pulse Count Data - Collected on Raspberry Pi"])
-csv_writer.writerow(["Timestamp", "Pulse Count (last 60s)"])
+def parse_arguments():
+    parser = argparse.ArgumentParser(description="Pulse counter for a fixed duration.")
+    parser.add_argument("--duration", type=int, required=True,
+                        help="Total run time in seconds.")
+    parser.add_argument("--interval", type=int, required=True,
+                        help="Interval (in seconds) for counting pulses per entry.")
+    return parser.parse_args()
 
 def my_callback(channel):
     global count
@@ -24,25 +24,44 @@ def my_callback(channel):
         count += 1
     print('▼ Pulse detected at ' + str(datetime.datetime.now()))
 
-def count_printer():
+def count_logger(interval, duration, csv_writer, csvfile):
     global count
-    while True:
-        time.sleep(60)
+    elapsed = 0
+    while elapsed < duration:
+        time.sleep(interval)
         with lock:
             timestamp = datetime.datetime.now().isoformat()
-            print(f"\n=== Total pulses in last minute: {count} ===\n")
+            print(f"\n=== Pulses in last {interval} seconds: {count} ===\n")
             csv_writer.writerow([timestamp, count])
-            csvfile.flush()  # Save to file immediately
-            count = 0  
+            csvfile.flush()
+            count = 0
+        elapsed += interval
 
-try:
-    GPIO.setmode(GPIO.BCM)
-    GPIO.setup(PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)  
-    GPIO.add_event_detect(PIN, GPIO.FALLING, callback=my_callback, bouncetime=1)
+def main():
+    args = parse_arguments()
+    interval = args.interval
+    duration = args.duration
+    csv_filename = "countdata.csv"
 
-    threading.Thread(target=count_printer, daemon=True).start()
-    input("Press Enter to exit...\n")
+    # Open CSV file
+    csvfile = open(csv_filename, mode="w", newline="")
+    csv_writer = csv.writer(csvfile)
 
-finally:
-    csvfile.close()
-    GPIO.cleanup()
+    # Write headers
+    csv_writer.writerow(["# Pulse Count Data - Collected on Raspberry Pi"])
+    csv_writer.writerow(["Timestamp", f"Pulse Count (per {interval}s)"])
+
+    try:
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)  
+        GPIO.add_event_detect(PIN, GPIO.FALLING, callback=my_callback, bouncetime=1)
+
+        count_logger(interval, duration, csv_writer, csvfile)
+
+    finally:
+        csvfile.close()
+        GPIO.cleanup()
+        print("=== Data collection complete. Saved to 'countdata.csv'. ===")
+
+if __name__ == "__main__":
+    main()
