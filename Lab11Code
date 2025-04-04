@@ -8,7 +8,7 @@ PIN = 17
 count = 0
 lock = threading.Lock()
 
-csv_filename = "pm25_sensor_data.csv"
+csv_filename = "countdata.csv"
 
 # Open the CSV file once and keep it open during runtime
 csvfile = open(csv_filename, mode="w", newline="")
