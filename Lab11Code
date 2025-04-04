@@ -1,0 +1,50 @@
+import RPi.GPIO as GPIO
+import datetime
+import time
+import threading
+import csv
+
+PIN = 17 
+count = 0
+lock = threading.Lock()
+
+csv_filename = "pm25_sensor_data.csv"
+
+# Open the CSV file once and keep it open during runtime
+csvfile = open(csv_filename, mode="w", newline="")
+csv_writer = csv.writer(csvfile)
+
+# Write meta-data and headers
+csv_writer.writerow(["# PM2.5 Sensor Data - Collected on Raspberry Pi"])
+csv_writer.writerow([
+    "Timestamp", "Pulse Count in Last Minute"
+])
+
+def my_callback(channel):
+    global count
+    with lock:
+        count += 1
+    print('▼ Count detected at ' + str(datetime.datetime.now()))
+
+def count_printer():
+    global count
+    while True:
+        time.sleep(60)
+        with lock:
+            timestamp = datetime.datetime.now().isoformat()
+            print(f"\n=== Total counts in last minute: {count} ===\n")
+            csv_writer.writerow([timestamp, count])
+            csvfile.flush()  # Ensure data is written to file
+            count = 0  
+
+try:
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)  
+    GPIO.add_event_detect(PIN, GPIO.FALLING, callback=my_callback, bouncetime=1)
+
+    threading.Thread(target=count_printer, daemon=True).start()
+    input("Press Enter to exit...\n")
+
+finally:
+    csvfile.close()
+    GPIO.cleanup()
