@@ -8,23 +8,21 @@ PIN = 17
 count = 0
 lock = threading.Lock()
 
-csv_filename = "countdata.csv"
+csv_filename = "pulse_counter_data.csv"
 
 # Open the CSV file once and keep it open during runtime
 csvfile = open(csv_filename, mode="w", newline="")
 csv_writer = csv.writer(csvfile)
 
 # Write meta-data and headers
-csv_writer.writerow(["# PM2.5 Sensor Data - Collected on Raspberry Pi"])
-csv_writer.writerow([
-    "Timestamp", "Pulse Count in Last Minute"
-])
+csv_writer.writerow(["# Pulse Count Data - Collected on Raspberry Pi"])
+csv_writer.writerow(["Timestamp", "Pulse Count (last 60s)"])
 
 def my_callback(channel):
     global count
     with lock:
         count += 1
-    print('▼ Count detected at ' + str(datetime.datetime.now()))
+    print('▼ Pulse detected at ' + str(datetime.datetime.now()))
 
 def count_printer():
     global count
@@ -32,9 +30,9 @@ def count_printer():
         time.sleep(60)
         with lock:
             timestamp = datetime.datetime.now().isoformat()
-            print(f"\n=== Total counts in last minute: {count} ===\n")
+            print(f"\n=== Total pulses in last minute: {count} ===\n")
             csv_writer.writerow([timestamp, count])
-            csvfile.flush()  # Ensure data is written to file
+            csvfile.flush()  # Save to file immediately
             count = 0  
 
 try:
