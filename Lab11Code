@@ -61,7 +61,7 @@ def main():
     finally:
         csvfile.close()
         GPIO.cleanup()
-        print("=== Data collection complete. Saved to 'countdata.csv'. ===")
+        print("=== Data collection complete. Saved to 'countdata1.csv'. ===")
 
 if __name__ == "__main__":
     main()
