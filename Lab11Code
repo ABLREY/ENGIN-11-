@@ -41,7 +41,7 @@ def main():
     args = parse_arguments()
     interval = args.interval
     duration = args.duration
-    csv_filename = "countdata.csv"
+    csv_filename = "countdata1.csv"
 
     # Open CSV file
     csvfile = open(csv_filename, mode="w", newline="")
