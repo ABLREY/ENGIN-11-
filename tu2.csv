@@ -1,5 +1,4 @@
-# Pulse Count Data - Collected on Raspberry Pi
-Timestamp,Pulse Count (per 10s)
+Timestamp, Count (per 10s)
 2025-04-04T15:41:05.882123,7
 2025-04-04T15:41:15.892734,3
 2025-04-04T15:41:25.903216,6
